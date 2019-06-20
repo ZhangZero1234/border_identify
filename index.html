@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        html,body{
+            margin: 0;
+            padding: 0;
+        }
+        html{
+           height:100vh;
+           background-color: #eee;
+        }
+        .container{
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .test{
+            width: 300px;
+            height: 300px;
+            background-color: aqua;
+
+        }
+        .info{
+            display: flex;
+            flex-wrap: wrap;                 
+            justify-content: center;
+            align-items: center;
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+            padding: 100px 0;
+            box-sizing: border-box;
+        }
+        .info span{
+            width: 100%;
+            text-align: center;
+        }
+    </style>
+    <script>
+    
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="test"></div>
+        <div class="info">
+            <span>Direction: <span id="dir"></span></span>
+            <span>In-Out: <span id="inOut"></span></span>
+        </div>
+    </div>
+</body>
+<script>
+    let ODIr = document.getElementById("dir");
+    let OInOut = document.getElementById("inOut");
+    let dir = ["top","right","bottom","left"];
+    let directionKey = (ev,element)=>{
+		// element.className = "";
+		let {width,height,top,left} = element.getBoundingClientRect();
+		const l = ev.pageX - (left + window.pageXOffset);
+		const t = ev.pageY - (top + window.pageYOffset);
+		const x = (l - (width/2) * (width > height ? (height/width) : 1));
+		const y = (t - (height/2) * (height > width ? (width/height) : 1));
+		let res = Math.round(Math.atan2(y, x) / 1.57079633 + 5) % 4;
+        // element.classList.add(`${state}-${directions[res]}`);
+        return res;
+    }
+    let DTest = document.getElementsByClassName("test")[0];
+    DTest.addEventListener("mouseenter",function(ev){
+        ODIr.innerHTML = dir[directionKey(ev,this)];
+        OInOut.innerHTML = "In";
+    });
+    DTest.addEventListener("mouseleave",function(ev){
+        ODIr.innerHTML = dir[directionKey(ev,this)];
+        OInOut.innerHTML = "Out";
+    });
+</script>
+</html>
